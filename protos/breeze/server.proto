@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package server;
+
+// Plugin service
+service Plugins {
+  // Get a plugin's endpoint
+  rpc GetEndpoint(PluginMessages.GetEndpoint.Request)
+      returns (PluginMessages.GetEndpoint.Response);
+}
+
+// JS module service
+service Modules {
+  // Load source code
+  rpc Load(ModuleMessages.Load.Request) returns (ModuleMessages.Load.Response);
+}
+
+message PluginMessages {
+  message GetEndpoint {
+    message Request {
+      string deployment_id = 1;
+      string instance_name = 2;
+    }
+
+    message Header {
+      string key = 1;
+      string value = 2;
+    }
+
+    message Response {
+      string url = 1;
+      repeated Header headers = 2;
+    }
+  }
+}
+
+message ModuleMessages {
+  message Load {
+    message Request {
+      string deployment_id = 1;
+      string specifier = 2;
+    }
+
+    message Response {
+      string code = 1;
+    }
+  }
+}

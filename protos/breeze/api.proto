@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package api;
+
+service Functions {
+  rpc Deploy (FunctionMessages.Deploy.Request) returns (FunctionMessages.Deploy.Response);
+  rpc Destroy (FunctionMessages.Destroy.Request) returns (FunctionMessages.Destroy.Response);
+}
+
+service Deployments {
+  rpc List (DeploymentMessages.List.Request) returns (stream DeploymentMessages.List.Response);
+}
+
+message DeploymentState {
+  oneof state {
+    Booting booting = 1;
+    BootFailed boot_failed = 2;
+    Running running = 3;
+    Destroyed destroyed = 4;
+    Terminated terminated = 5;
+    EarlyExited early_exited = 6;
+    UncaughtException uncaught_exception = 7;
+    MemoryLimitExceeded memory_limit_exceeded = 8;
+  }
+
+  message Booting {
+    string path_prefix = 1;
+    string entry_file = 2;
+  }
+  message BootFailed {
+    string error = 1;
+  }
+  message Running {
+    uint64 boot_time = 1;
+  }
+  message Destroyed {}
+  message Terminated {}
+  message EarlyExited {}
+  message UncaughtException {
+    string exception = 1;
+  }
+  message MemoryLimitExceeded {
+    uint64 memory_limit = 1;
+    uint64 memory_usage = 2;
+  }
+}
+
+message FunctionMessages {
+  message Deploy {
+    message Request {
+      string deployment_id = 1;
+      string path_prefix = 2;
+      string entry_file = 3;
+      map<string, string> envs = 4;
+      optional bool force = 5;
+    }
+
+    message Response {
+      string deployment_id = 1;
+    }
+  }
+
+  message Destroy {
+    message Request {
+      string deployment_id = 1;
+    }
+
+    message Response {
+      string deployment_id = 1;
+    }
+  }
+}
+
+message DeploymentMessages {
+  message List {
+    message Request {}
+    message Response {
+      string deployment_id = 1;
+      DeploymentState deployment_state = 2;
+    }
+  }
+}
