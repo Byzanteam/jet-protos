@@ -11,6 +11,10 @@ service Plugins {
 
 // JS module service
 service Modules {
+  // Resolve a module specifier to an absolute URL,
+  // the algorithm described here:
+  // https://html.spec.whatwg.org/multipage/webappapis.html#resolve-a-module-specifier
+  rpc resolve(ModuleMessages.Resolve.Request) returns (ModuleMessages.Resolve.Response);
   // Load source code
   rpc Load(ModuleMessages.Load.Request) returns (ModuleMessages.Load.Response);
 }
@@ -35,9 +39,25 @@ message PluginMessages {
 }
 
 message ModuleMessages {
+  message Resolve {
+    message Request {
+      string deployment_id = 1;
+      // The module specifier to resolve
+      string specifier = 2;
+      // The URL of the document that initiated the request
+      string referrer = 3;
+    }
+
+    message Response {
+      // Absolute URL, returns file:// URL for local files
+      string specifier = 1;
+    }
+  }
+
   message Load {
     message Request {
       string deployment_id = 1;
+      // The absolute URL resolved by the Resolve request
       string specifier = 2;
     }
 
