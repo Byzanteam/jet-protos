@@ -52,7 +52,9 @@ message FunctionMessages {
       string path_prefix = 2;
       string entry_file = 3;
       map<string, string> envs = 4;
-      optional bool force = 5;
+      // support import map, see details at https://github.com/WICG/import-maps
+      map<string, string> imports = 5;
+      optional bool force = 6;
     }
 
     message Response {
