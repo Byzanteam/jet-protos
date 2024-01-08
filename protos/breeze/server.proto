@@ -38,6 +38,11 @@ message ModuleMessages {
   message Load {
     message Request {
       string deployment_id = 1;
+      // The module specifier, such as "file://$current$/main.ts",
+      // uses the hostname to identify the module source.
+      // `$current$` represents the current function,
+      // while `$functions$` denotes the root directory of functions
+      // that is equivalent to the parent directory of `$current$`.
       string specifier = 2;
     }
 
