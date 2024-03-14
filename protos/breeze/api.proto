@@ -8,7 +8,7 @@ service Functions {
 }
 
 service Deployments {
-  rpc List (DeploymentMessages.List.Request) returns (stream DeploymentMessages.List.Response);
+  rpc List (stream DeploymentMessages.List.Request) returns (stream DeploymentMessages.List.Response);
 }
 
 message DeploymentState {
@@ -75,7 +75,11 @@ message FunctionMessages {
 
 message DeploymentMessages {
   message List {
-    message Request {}
+    message Request {
+      // if the deployment_id is empty, it means list all deployments
+      optional string deployment_id = 1;
+    }
+
     message Response {
       string deployment_id = 1;
       DeploymentState deployment_state = 2;
