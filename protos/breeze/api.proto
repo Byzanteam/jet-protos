@@ -17,10 +17,9 @@ message DeploymentState {
     BootFailed boot_failed = 2;
     Running running = 3;
     Destroyed destroyed = 4;
-    Terminated terminated = 5;
-    EarlyExited early_exited = 6;
-    UncaughtException uncaught_exception = 7;
-    MemoryLimitExceeded memory_limit_exceeded = 8;
+    EarlyExited early_exited = 5;
+    UncaughtException uncaught_exception = 6;
+    MemoryLimitExceeded memory_limit_exceeded = 7;
   }
 
   message Booting {
@@ -34,7 +33,6 @@ message DeploymentState {
     uint64 boot_time = 1;
   }
   message Destroyed {}
-  message Terminated {}
   message EarlyExited {}
   message UncaughtException {
     string exception = 1;
