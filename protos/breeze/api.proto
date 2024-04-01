@@ -57,6 +57,7 @@ message FunctionMessages {
 
     message Response {
       string deployment_id = 1;
+      string endpoint = 2;
     }
   }
 
