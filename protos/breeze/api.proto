@@ -31,6 +31,7 @@ message DeploymentState {
   }
   message Running {
     uint64 boot_time = 1;
+    string endpoint = 2;
   }
   message Destroyed {}
   message EarlyExited {}
