@@ -53,7 +53,7 @@ message FunctionMessages {
       map<string, string> envs = 4;
       // support import map, see details at https://github.com/WICG/import-maps
       optional bytes import_map = 5;
-      // current working directory, default is `/`.
+      // current working directory, it can be a valid URL or an absolute path, default is `/`.
       // It is used as the base URL for the import map.
       optional string cwd = 7;
       optional bool force = 6;
